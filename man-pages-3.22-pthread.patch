@@ -1,0 +1,12 @@
+diff -up man-pages-3.22/man3/pthread_attr_setguardsize.3.pom man-pages-3.22/man3/pthread_attr_setguardsize.3
+--- man-pages-3.22/man3/pthread_attr_setguardsize.3.pom	2009-07-25 08:53:37.000000000 +0200
++++ man-pages-3.22/man3/pthread_attr_setguardsize.3	2011-01-25 11:02:52.000000000 +0100
+@@ -124,7 +124,7 @@ and knows that stack overflow can never 
+ Choosing a guard size larger than the default size
+ may be necessary for detecting stack overflows
+ if a thread allocates large data structures on the stack.
+-.SH BUGS
++
+ As at glibc 2.8, the NPTL threading implementation includes
+ the guard area within the stack size allocation,
+ rather than allocating extra space at the end of the stack,

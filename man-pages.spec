@@ -4,7 +4,7 @@
 Summary: Man (manual) pages from the Linux Documentation Project
 Name: man-pages
 Version: 3.22
-Release: 12%{?dist}
+Release: 17%{?dist}
 License: GPLv2+ and GPL+ and BSD and MIT and Copyright only and IEEE
 Group: Documentation
 URL: http://www.kernel.org/pub/linux/docs/manpages/
@@ -36,6 +36,21 @@ Patch58: man-pages-3.22-sched_setaffinity.patch
 Patch59: man-pages-3.24-atanh.patch
 Patch60: man-pages-3.24-mmap64.patch
 Patch61: man-pages-3.22-swapon.patch
+# #528546 add preadv and pwritev syscalls description
+# (updated version from 3.32)
+Patch62: man-pages-3.22-syscalls.patch
+# #613777 update get_mempolicy man page
+# (updated version from 3.32)
+Patch63: man-pages-3.22-get_mempolicy.patch
+# #634626 remove the obsolete scsi(4) link from sd(4)
+Patch64: man-pages-3.22-sd.patch
+# #634986 remove the BUGS part to NOTES
+# the described behavior is not a bug and will not be changed
+Patch65: man-pages-3.22-pthread.patch
+Patch66: man-pages-3.22-get_timeres.patch
+Patch67: man-pages-2.39-gai.conf.patch
+Patch68: man-pages-3.22-crypt.patch
+Patch69: man-pages-3.22-getifaddrs.patch
 
 
 Buildroot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -71,6 +86,14 @@ cp %{SOURCE6} man2/mmap.2
 %patch59 -p1
 %patch60 -p1
 %patch61 -p1
+%patch62 -p1
+%patch63 -p1
+%patch64 -p1
+%patch65 -p1
+%patch66 -p1
+%patch67 -p1
+%patch68 -p1
+%patch69 -p1
 
 ### And now remove those we are not going to use:
 
@@ -100,6 +123,9 @@ rm -v man5/numa_maps.5
 
 # We do not have sccs
 rm -f man1p/{admin,delta,get,prs,rmdel,sact,sccs,unget,val,what}.1p
+
+# #669768 remove obsolete man page
+rm -f man1/getent.1
 
 %build
 : Nothing to build.
@@ -144,6 +170,37 @@ rm -rf $RPM_BUILD_ROOT
 %lang(en) %{_mandir}/en/man*
 
 %changelog
+
+* Fri Mar 25 2011 Ivana Hutarova Varekova <varekova@redhat.com> - 3.22-17
+- Related: #683039
+  change the patch to the upstream version
+ 
+* Fri Mar 25 2011 Ivana Hutarova Varekova <varekova@redhat.com> - 3.22-16
+- Resolves: #683039
+  Example code in getifaddrs(3) man page can crash
+
+* Thu Feb 24 2011 Ivana Hutarova Varekova <varekova@redhat.com> - 3.22-15
+- Resolves: #679894
+  add scopev4 to gai.conf man page
+- resolves: #679530
+  crypt(3) incorrect key length
+
+* Fri Feb 18 2011 Ivana Hutarova Varekova <varekova@redhat.com> - 3.22-14
+- Resolves: #678376
+  clock_gettime man page error for CLOCK_REALTIME_HR
+
+* Tue Jan 25 2011 Ivana Hutarova Varekova <varekova@redhat.com> - 3.22-13
+- Resolves: #528546
+  add preadv and pwritev syscalls description
+- Resolves: #613777
+  update get_mempolicy man page
+- Resolves: #634626
+  remove the obsolete scsi(4) link from sd(4)
+- Resolves: #634986
+  remove the BUGS part to NOTES
+- Resolves: #669768 
+  remove obsolete man page
+
 * Wed Jun 16 2010 Ivana Hutarova Varekova <varekova@redhat.com> - 3.22-12
 - Resolves: #602789
   swapon(2) lists max number of swap partitions incorrectly
