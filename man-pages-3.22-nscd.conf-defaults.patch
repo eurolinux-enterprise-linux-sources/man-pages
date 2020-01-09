@@ -1,0 +1,97 @@
+diff -ur man-pages-3.22.orig/man5/nscd.conf.5 man-pages-3.22/man5/nscd.conf.5
+--- man-pages-3.22.orig/man5/nscd.conf.5	2012-09-25 15:08:10.270163651 +0200
++++ man-pages-3.22/man5/nscd.conf.5	2012-09-25 15:36:47.207332023 +0200
+@@ -46,6 +46,7 @@
+ .I value
+ .RS
+ Sets the desired debug level.
++The default is 0.
+ .RE
+ 
+ .B threads
+@@ -71,6 +72,7 @@
+ Enables or disables the specified
+ .I service
+ cache.
++The default is no.
+ .RE
+ 
+ .B positive-time-to-live
+@@ -108,6 +110,7 @@
+ This is the internal hash table size,
+ .I value
+ should remain a prime number for optimum efficiency.
++The default is 211.
+ .RE
+ 
+ .B check-files
+@@ -120,14 +123,16 @@
+ The files are
+ .IR /etc/passwd ,
+ .IR /etc/group ,
++.IR /etc/hosts
+ and
+-.IR /etc/hosts .
++.IR /etc/services .
++The default is yes.
+ .RE
+ 
+ .B max-threads
+ .I threads
+ .RS
+-Specifies the maximum number of threads to be started.
++Specifies the maximum number of threads. The default is 32.
+ .RE
+ 
+ .B stat-user
+@@ -149,6 +154,7 @@
+ .I <yes|no>
+ .RS
+ Enabling paranoia mode causes nscd to restart itself periodically.
++The default is no.
+ .RE
+ 
+ .B restart-interval
+@@ -160,6 +166,7 @@
+ if periodic restart is enabled by enabling
+ .B paranoia
+ mode.
++The default is 3600.
+ .RE
+ 
+ .B persistent
+@@ -171,6 +178,7 @@
+ over server restarts; useful when
+ .B paranoia
+ mode is set.
++The default is no.
+ .RE
+ 
+ .B shared
+@@ -182,13 +190,16 @@
+ is shared with the clients so
+ that they can directly search in them instead of having to ask the
+ daemon over the socket each time a lookup is performed.
++The default is no.
+ .RE
+ 
+ .B max-db-size
+ .I service
+ .I number-of-bytes
+ .RS
+-The maximum allowable size for the service.
++The maximum allowable size of the database files in bytes for the
++.IR service .
++The default is 33554432.
+ .RE
+ 
+ .B auto-propagate
+@@ -201,6 +212,8 @@
+ .IR passwd.byuid " or " group.bygid
+ cache.
+ This may help for tables containing multiple records for the same id.
++The default is yes. This option is valid only for services
++.IR passwd " and " group ".
+ .RE
+ .SH "SEE ALSO"
+ .BR nscd (8)

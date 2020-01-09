@@ -1,0 +1,12 @@
+diff -ur man-pages-3.22.orig/man5/nscd.conf.5 man-pages-3.22/man5/nscd.conf.5
+--- man-pages-3.22.orig/man5/nscd.conf.5	2012-09-24 15:44:13.842120722 +0200
++++ man-pages-3.22/man5/nscd.conf.5	2012-09-24 15:45:12.036332219 +0200
+@@ -34,7 +34,7 @@
+ comment; following characters, up to the end of the line,
+ are not interpreted by nscd.
+ 
+-Valid services are \fIpasswd\fP, \fIgroup\fP, or \fIhosts\fP.
++Valid services are \fIpasswd\fP, \fIgroup\fP, \fIhosts\fP or \fIservices\fP.
+ 
+ .B logfile
+ .I debug-file-name

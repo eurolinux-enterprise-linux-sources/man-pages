@@ -1,0 +1,13 @@
+diff -ur man-pages-3.22.orig/man2/shmop.2 man-pages-3.22/man2/shmop.2
+--- man-pages-3.22.orig/man2/shmop.2	2012-09-25 16:13:35.173694589 +0200
++++ man-pages-3.22/man2/shmop.2	2012-09-25 16:14:49.115118717 +0200
+@@ -193,6 +193,9 @@
+ .B CAP_IPC_OWNER
+ capability.
+ .TP
++.B EIDRM
++\fIshmid\fP points to a removed identifier.
++.TP
+ .B EINVAL
+ Invalid
+ .I shmid

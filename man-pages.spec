@@ -4,7 +4,7 @@
 Summary: Man (manual) pages from the Linux Documentation Project
 Name: man-pages
 Version: 3.22
-Release: 17%{?dist}
+Release: 20%{?dist}
 License: GPLv2+ and GPL+ and BSD and MIT and Copyright only and IEEE
 Group: Documentation
 URL: http://www.kernel.org/pub/linux/docs/manpages/
@@ -14,15 +14,13 @@ Source0: http://www.kernel.org/pub/linux/docs/manpages/man-pages-%{version}.tar.
 Source1: http://www.kernel.org/pub/linux/docs/man-pages/man-pages-posix/man-pages-posix-%{posix_version}-%{posix_release}.tar.bz2
 Source2: man-pages_add-01.tar.bz2
 Source3: man-pages-extralocale.tar.bz2
-Source4: man-pages_syscalls-01.tar.bz2
+Source4: man-pages_syscalls-02.tar.bz2
 # IBM-supplied man pages for suid binaries:
 Source5: man-suid-bins.tar.bz2
 Source6: mmap.2
 Patch1: man-pages-1.51-iconv.patch
 Patch28: man-pages-2.46-nscd.patch
 Patch36: man-pages-2.63-unimplemented.patch
-Patch41: man-pages-2.43-rt_spm.patch
-Patch44: man-pages-2.43-fadvise.patch
 Patch45: man-pages-2.48-passwd.patch
 Patch46: man-pages-2.51-nscd-conf.patch
 Patch49: man-pages-2.63-getent.patch
@@ -39,18 +37,58 @@ Patch61: man-pages-3.22-swapon.patch
 # #528546 add preadv and pwritev syscalls description
 # (updated version from 3.32)
 Patch62: man-pages-3.22-syscalls.patch
-# #613777 update get_mempolicy man page
-# (updated version from 3.32)
-Patch63: man-pages-3.22-get_mempolicy.patch
 # #634626 remove the obsolete scsi(4) link from sd(4)
 Patch64: man-pages-3.22-sd.patch
 # #634986 remove the BUGS part to NOTES
 # the described behavior is not a bug and will not be changed
 Patch65: man-pages-3.22-pthread.patch
-Patch66: man-pages-3.22-get_timeres.patch
 Patch67: man-pages-2.39-gai.conf.patch
 Patch68: man-pages-3.22-crypt.patch
 Patch69: man-pages-3.22-getifaddrs.patch
+# resolves: #840798
+Patch70: man-pages-3.22-getdents.patch
+# resolves: #822317
+Patch71: man-pages-3.22-bdflush.patch
+# resolves: #840791
+Patch72: man-pages-3.22-nsswitch.conf-notfound.patch
+# resolves: #835679
+Patch73: man-pages-3.22-nscd.conf.patch
+# resolves: #745501
+Patch74: man-pages-3.22-nsswitch.conf-sssd.patch
+# resolves: #840796
+Patch75: man-pages-3.22-ip.patch
+# resolves: #714075
+Patch76: man-pages-3.22-cciss-hpsa.patch
+# resolves: #804003
+Patch77: man-pages-3.22-ip-socket-options.patch
+# resolves: #714078
+Patch78: man-pages-3.22-host.conf.patch
+# resolves: #714073
+Patch79: man-pages-3.22-fattach.patch
+# resolves: #840805
+Patch80: man-pages-3.22-nscd.conf-defaults.patch
+# resolves: #809564
+Patch81: man-pages-3.22-shmop.patch
+# resolves: #745152
+Patch82: man-pages-3.22-resolv.conf.patch
+# resolves: #714074
+Patch83: man-pages-3.22-recvmmsg.patch
+# resolves: #745521
+Patch84: man-pages-3.22-umount.patch
+# resolves: #745733
+Patch85: man-pages-3.22-sendmmsg.patch
+# resolves: #857163
+Patch86: man-pages-3.22-tzset.patch
+# resolves: #857162
+Patch87: man-pages-3.22-close.patch
+# resolves: #858278
+Patch88: man-pages-3.22-connect.patch
+# resolves: #858240
+Patch89: man-pages-3.22-zdump.patch
+# resolves: #857962
+Patch90: man-pages-3.22-proc-file-nr.patch
+# resolves: #771540
+Patch91: man-pages-3.22-tcp-congestion.patch
 
 
 Buildroot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -71,8 +109,6 @@ cp %{SOURCE6} man2/mmap.2
 %patch1 -p1
 %patch28 -p1
 %patch36 -p1 
-%patch41 -p1
-%patch44 -p1
 %patch45 -p1 
 %patch46 -p1 
 %patch49 -p1
@@ -87,13 +123,33 @@ cp %{SOURCE6} man2/mmap.2
 %patch60 -p1
 %patch61 -p1
 %patch62 -p1
-%patch63 -p1
 %patch64 -p1
 %patch65 -p1
-%patch66 -p1
 %patch67 -p1
 %patch68 -p1
 %patch69 -p1
+%patch70 -p1
+%patch71 -p1
+%patch72 -p1
+%patch73 -p1
+%patch74 -p1
+%patch75 -p1
+%patch76 -p1
+%patch77 -p1
+%patch78 -p1
+%patch79 -p1
+%patch80 -p1
+%patch81 -p1
+%patch82 -p1
+%patch83 -p1
+%patch84 -p1
+%patch85 -p1
+%patch86 -p1
+%patch87 -p1
+%patch88 -p1
+%patch89 -p1
+%patch90 -p1
+%patch91 -p1
 
 ### And now remove those we are not going to use:
 
@@ -126,6 +182,12 @@ rm -f man1p/{admin,delta,get,prs,rmdel,sact,sccs,unget,val,what}.1p
 
 # #669768 remove obsolete man page
 rm -f man1/getent.1
+
+# Invalid link (BZ#752778)
+rm -f man3/db.3
+
+# Typo in the man page name - should be fattach.2
+rm -f man2/fattch.2
 
 %build
 : Nothing to build.
@@ -170,6 +232,65 @@ rm -rf $RPM_BUILD_ROOT
 %lang(en) %{_mandir}/en/man*
 
 %changelog
+* Mon Oct 15 2012 Peter Schiffer <pschiffe@redhat.com> - 3.22-20
+- resolves: #771540
+  added missing description of the TCP_CONGESTION socket option
+
+* Fri Oct 12 2012 Peter Schiffer <pschiffe@redhat.com> - 3.22-19
+- related: #735789
+  renamed modified tarball man-pages_syscalls-01.tar.bz2
+  to man-pages_syscalls-02.tar.bz2
+
+* Thu Sep 27 2012 Peter Schiffer <pschiffe@redhat.com> - 3.22-18
+- resolves: #840798
+  added warning about 32bit app on 64bit OS to the getdents(2) man page
+- resolves: #822317
+  added note that bdflush(2) syscall is obsolete
+- resolves: #752778
+  removed db(3) man page with invalid link
+- resolves: #840791
+  clarify notfound status on the nsswitch.conf(5) man page
+- resolves: #835679
+  mentioned new supported 'services' database on the nscd.conf(5) man page
+- resolves: #745501
+  mentioned SSSD on the nsswitch.conf(5) man page
+- resolves: #840796
+  updated documentation of the connect(2) call on the ip(7) man page
+- resolves: #714075
+  added cciss(4) and hpsa(4) man pages
+- resolves: #804003
+  added missing socket options on the ip(7) man page
+- resolves: #714078
+  removed documentation for 'order' keyword in the host.conf(5) man page
+- resolves: #714073
+  added fattach(2) man page as a link to the unimplemented(2) man page
+- resolves: #840805
+  added default values for attributes on the nscd.conf(5) man page
+- resolves: #809564
+  added description of EIDRM error to the shmop(2) man page
+- resolves: #745152
+  added description of the single-request and single-request-reopen options
+  to the resolv.conf(5) man page
+- resolves: #714074
+  added recvmmsg(2) man page
+- resolves: #745521
+  added description of the UMOUNT_NOFOLLOW flag on the umount(2) man page
+- resolves: #745733
+  added sendmmsg(2) man page
+- resolves: #735789
+  removed outdated man pages from man-pages_syscalls-01.tar.bz2 archive
+  which were replacing newer man pages from upstream man-pages-3.22.tar.bz2
+- resolves: #857163
+  fixed description of option n in the tzset(3) man page
+- resolves: #857162
+  documented the fact that using shutdown(2) before close(2) is recommended
+  when dealing with sockets on the close(2) man page
+- resolves: #858278
+  fixed error code on the connect(2) man page
+- resolves: #858240
+  updated zdump options in the zdump(8) man page
+- resolves: #857962
+  updated description of /proc/sys/fs/file-nr file in the proc(5) man page
 
 * Fri Mar 25 2011 Ivana Hutarova Varekova <varekova@redhat.com> - 3.22-17
 - Related: #683039

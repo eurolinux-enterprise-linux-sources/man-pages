@@ -1,0 +1,12 @@
+diff -ur man-pages-3.22.orig/man5/nsswitch.conf.5 man-pages-3.22/man5/nsswitch.conf.5
+--- man-pages-3.22.orig/man5/nsswitch.conf.5	2012-09-24 15:34:46.870029932 +0200
++++ man-pages-3.22/man5/nsswitch.conf.5	2012-09-24 15:37:20.299214880 +0200
+@@ -203,6 +203,8 @@
+ .B notfound
+ The lookup process works ok but the needed value was not found.
+ The default action is `continue'.
++However, if the selected action for the `group' database is `return',
++the next lookup function is always called, without affecting the search result.
+ .TP
+ .B unavail
+ The service is permanently unavailable.

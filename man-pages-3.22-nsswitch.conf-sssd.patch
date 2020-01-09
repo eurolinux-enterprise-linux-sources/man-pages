@@ -1,0 +1,16 @@
+diff -ur man-pages-3.22.orig/man5/nsswitch.conf.5 man-pages-3.22/man5/nsswitch.conf.5
+--- man-pages-3.22.orig/man5/nsswitch.conf.5	2012-09-25 10:47:41.042016613 +0200
++++ man-pages-3.22/man5/nsswitch.conf.5	2012-09-25 10:50:53.341336993 +0200
+@@ -173,6 +173,12 @@
+ .I X
+ is 1 for glibc 2.0 and 2 for glibc 2.1.
+ .LP
++If System Security Services Daemon (SSSD)
++is installed on your system, you can use
++this service with the `sss' keyword.
++SSSD supports the following databases:
++passwd, group, services and netgroup.
++.LP
+ The second item in the specification gives the user much finer
+ control on the lookup process.
+ Action items are placed between two

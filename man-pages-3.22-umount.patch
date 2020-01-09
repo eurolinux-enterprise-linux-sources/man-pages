@@ -1,0 +1,18 @@
+diff -ur man-pages-3.22.orig/man2/umount.2 man-pages-3.22/man2/umount.2
+--- man-pages-3.22.orig/man2/umount.2	2012-09-25 16:55:40.087507412 +0200
++++ man-pages-3.22/man2/umount.2	2012-09-25 16:57:03.005419434 +0200
+@@ -88,6 +88,14 @@
+ .B MNT_FORCE
+ or
+ .BR MNT_DETACH .
++.TP
++.BR UMOUNT_NOFOLLOW " (since Linux 2.6.34)"
++.\" Later added to 2.6.33-stable and 2.6.32-31.el6
++Don't dereference
++.I target
++if it is a symbolic link.
++This flag allows security problems to be avoided in set-user-ID-\fIroot\fP
++programs that allow unprivileged users to unmount file systems.
+ .SH "RETURN VALUE"
+ On success, zero is returned.
+ On error, \-1 is returned, and

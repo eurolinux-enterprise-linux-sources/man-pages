@@ -1,0 +1,12 @@
+diff -ur man-pages-3.22.orig/man3/tzset.3 man-pages-3.22/man3/tzset.3
+--- man-pages-3.22.orig/man3/tzset.3	2012-09-27 13:20:52.082150583 +0200
++++ man-pages-3.22/man3/tzset.3	2012-09-27 13:23:25.076195977 +0200
+@@ -134,7 +134,7 @@
+ February 29 is never counted even in leap years.
+ .TP
+ .I n
+-This specifies the Julian day with \fIn\fP between 1 and 365.
++This specifies the Julian day with \fIn\fP between 0 and 365.
+ February 29 is counted in leap years.
+ .TP
+ M\fIm\fP.\fIw\fP.\fId\fP
