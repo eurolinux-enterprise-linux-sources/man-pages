@@ -1,13 +1,13 @@
 %global posix_version 2003
 %global posix_release a
 %global posix_name man-pages-posix-%{posix_version}-%{posix_release}
-%global additional_version 20130731
+%global additional_version 20140211
 %global additional_name man-pages-additional-%{additional_version}
 
 Summary: Man (manual) pages from the Linux Documentation Project
 Name: man-pages
 Version: 3.53
-Release: 2%{?dist}
+Release: 5%{?dist}
 License: GPL+ and GPLv2+ and BSD and MIT and Copyright only and IEEE
 Group: Documentation
 URL: http://www.kernel.org/doc/man-pages/
@@ -37,6 +37,8 @@ Patch22: man-pages-3.42-connect.patch
 Patch23: man-pages-3.43-tcp-congestion.patch
 # resolves: #990049
 Patch24: man-pages-3.53-proc.patch
+# resolves: #1058101
+Patch25: man-pages-3.53-nscd.conf.patch
 
 
 Autoreq: false
@@ -61,6 +63,7 @@ Documentation Project (LDP).
 %patch22 -p1
 %patch23 -p1
 %patch24 -p1
+%patch25 -p1
 
 ## Remove man pages we are not going to use ##
 
@@ -73,6 +76,9 @@ rm man3/{db,btree,dbopen,hash,mpool,recno}.3
 # deprecated
 rm man2/pciconfig_{write,read,iobase}.2
 
+# we are not using SystemV anymore (#1062906)
+rm man7/boot.7
+
 # we do not have sccs (#203302)
 rm %{posix_name}/man1p/{admin,delta,get,prs,rmdel,sact,sccs,unget,val,what}.1p
 
@@ -81,8 +87,8 @@ rm %{posix_name}/man1p/{admin,delta,get,prs,rmdel,sact,sccs,unget,val,what}.1p
 # nothing to build
 
 %install
-%{__cp} -r %{additional_name}/man? .
 %{__mv} %{posix_name}/man?p .
+%{__cp} -r %{additional_name}/man* .
 instdir=$RPM_BUILD_ROOT%{_mandir}
 for sec in 0p 1 1p 2 3 3p 4 5 6 7 8; do
     %{__mkdir} -p $instdir{,/en}/man$sec
@@ -123,6 +129,21 @@ cd ..
 %lang(en) %{_mandir}/en/man*/*
 
 %changelog
+* Tue Feb 11 2014 Peter Schiffer <pschiffe@redhat.com> - 3.53-5
+- resolves: #1058101
+  added note about default values to the nscd.conf(5) man page
+- resolves: #1059829
+  added three pthread_mutex* man pages from POSIX.1-2008
+- resolves: #1062906
+  removed boot(7) man page
+
+* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 3.53-4
+- Mass rebuild 2013-12-27
+
+* Wed Dec  4 2013 Peter Schiffer <pschiffe@redhat.com> - 3.53-3
+- resolves: #1031706
+  removed pt_chown(5) man page
+
 * Tue Aug 13 2013 Peter Schiffer <pschiffe@redhat.com> - 3.53-2
 - resolves: #990049
   documented /proc/[pid]/io file on the proc(5) man page
